@@ -5,17 +5,19 @@ let myBalance = 20000;
 
 let myPin = 9876;
 
-let pinCode = await inquirer.prompt([
-  {
+let pinCode = await inquirer.prompt(
+  [
+ {
     name: "pin",
     message: "Enter your pin",
     type: "number",
   },
-]);
+]
+);
 //checking your pin
 if (pinCode.pin === myPin) {
   console.log("Correct pincode!!!");
-}
+
 // if pin is correct it will run
 
 let operationAns = await inquirer.prompt([
@@ -34,23 +36,25 @@ if (operationAns.operation === "withdraw")// if withdraw selected
       message: "How much you want to withdraw?",// ask the withdraw amount
       type: "number",
     },
-  ]
+ ]
   );
   myBalance -= amount.amount;
   if (amount.amount <= 20000)
    {
-    console.log("sorry! you have insufficent balance.");
+   
+    console.log("wait system is processing.");
   }
-   else 
+   else if(amount.amount>= 20000) 
   {
-    console.log("Please enter a valid amount you have only 20000");
+    console.log("Please enter a valid amount you have only 20000.");
   }
 }
- else if (operationAns.operation === "checkbalance")
+else if (operationAns.operation === "checkbalance")
   {
   console.log(`your current balance is :${ myBalance}`);
+  }
 
-} 
+
 else if (operationAns.operation === "Fast deposite") 
 {
   let MultipalAmount = await inquirer.prompt([
@@ -64,9 +68,7 @@ else if (operationAns.operation === "Fast deposite")
       );
       
   console.log(`take your cash.`);
-
+  
 console.log("THANK YOU!!");
 }
-else{
-    console.log("Enter you Pin cearfully.");
 }
