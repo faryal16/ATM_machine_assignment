@@ -1,74 +1,62 @@
 #! /usr/bin/env node
 import inquirer from "inquirer";
 
-let myBalance = 20000;
+let myBalance = 10000;
 
-let myPin = 9876;
+let myPinCode = 12345;
 
-let pinCode = await inquirer.prompt(
-  [
- {
+let pinAns = await inquirer.prompt([
+  {
     name: "pin",
-    message: "Enter your pin",
+    message: "enter your pin",
     type: "number",
   },
-]
-);
-//checking your pin
-if (pinCode.pin === myPin) {
+]);
+if (pinAns.pin === myPinCode) {
   console.log("Correct pincode!!!");
 
-// if pin is correct it will run
-
-let operationAns = await inquirer.prompt([
-  {
-    name: "operation",
-    message: "select your operation",
-    type: "list",
-    choices: ["withdraw", "checkbalance", "Fast deposite"], //ask about desireable withdraw
-  },
-]);
-if (operationAns.operation === "withdraw")// if withdraw selected
- {
-  let amount = await inquirer.prompt([
+  let operationAns = await inquirer.prompt([
     {
-      name: "amount",
-      message: "How much you want to withdraw?",// ask the withdraw amount
-      type: "number",
-    },
- ]
-  );
-  myBalance -= amount.amount;
-  if (amount.amount <= 20000)
-   {
-   
-    console.log("wait system is processing.");
-  }
-   else if(amount.amount>= 20000) 
-  {
-    console.log("Please enter a valid amount you have only 20000.");
-  }
-}
-else if (operationAns.operation === "checkbalance")
-  {
-  console.log(`your current balance is :${ myBalance}`);
-  }
-
-
-else if (operationAns.operation === "Fast deposite") 
-{
-  let MultipalAmount = await inquirer.prompt([
-    {
-      name: "cash",
-      message: "please select your amount.",
+      name: "operation",
+      message: "select your operation",
       type: "list",
-      choices: ["5000$", "10000$" , "12000$", "150000$" ],
+      choices: ["withdraw", "checkbalance","deposite"],
     },
-    ]
-      );
+  ]);
+  if (operationAns.operation === "withdraw") {
+    let amountAns = await inquirer.prompt([
+      {
+        name: "amount",
+        message: "enter your amount",
+        type: "number",
+      },
+    ]);
+    myBalance -= amountAns.amount
+    if(amountAns.amount <=10000 ){
+    console.log(`your remaining amount is ${myBalance} $`);
+    }else{
+      console.log("Please enter a valid amount you have only 10000");
       
-  console.log(`take your cash.`);
+    }
+  }
+  else if(operationAns.operation === "checkbalance"){
+    console.log(`your balance is: ${myBalance}$` );
+    
+  }
+  else if(operationAns.operation === "deposite"){
+    let cashAns = await inquirer.prompt(
+    [
+      {name:"cash",
+       message:"which amount you want to deposite",
+       type:"list",
+       choices:[5000,10000,15000,20000],
+      }   
+    ]
+    )
+    console.log(`today you deposite ${cashAns.cash} cash in your bank account so now your total amount is ${myBalance + cashAns.cash}`);
+    
+  }
   
-console.log("THANK YOU!!");
-}
-}
+}else{
+    console.log("INcorrect Pin!!")
+  }
