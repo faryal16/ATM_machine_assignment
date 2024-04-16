@@ -1,62 +1,78 @@
 #! /usr/bin/env node
-import inquirer from "inquirer";
+import inquirer from "inquirer"
+import chalk from "chalk";
 
-let myBalance = 10000;
+//we will push all todos in this loops.
+let todos=[]; 
 
-let myPinCode = 12345;
+let condition=true;
 
-let pinAns = await inquirer.prompt([
-  {
-    name: "pin",
-    message: "enter your pin",
-    type: "number",
-  },
-]);
-if (pinAns.pin === myPinCode) {
-  console.log("Correct pincode!!!");
+// welcome msg
+console.log(chalk.blue("\n\t\t WELCOME TO MY TODO,s LIST \t\t\n"));
 
-  let operationAns = await inquirer.prompt([
-    {
-      name: "operation",
-      message: "select your operation",
-      type: "list",
-      choices: ["withdraw", "checkbalance","deposite"],
-    },
-  ]);
-  if (operationAns.operation === "withdraw") {
-    let amountAns = await inquirer.prompt([
-      {
-        name: "amount",
-        message: "enter your amount",
-        type: "number",
-      },
-    ]);
-    myBalance -= amountAns.amount
-    if(amountAns.amount <=10000 ){
-    console.log(`your remaining amount is ${myBalance} $`);
-    }else{
-      console.log("Please enter a valid amount you have only 10000");
-      
-    }
-  }
-  else if(operationAns.operation === "checkbalance"){
-    console.log(`your balance is: ${myBalance}$` );
-    
-  }
-  else if(operationAns.operation === "deposite"){
-    let cashAns = await inquirer.prompt(
+// In this loop user will ask user  for adding their todos :
+
+while(condition)
+{
+    let answer= await inquirer.prompt (
     [
-      {name:"cash",
-       message:"which amount you want to deposite",
-       type:"list",
-       choices:[5000,10000,15000,20000],
-      }   
+        {
+            name:"todo",
+            type:"input",
+            message:chalk.green("insert your task u wanna add..\n"),
+        },
     ]
-    )
-    console.log(`today you deposite ${cashAns.cash} cash in your bank account so now your total amount is ${myBalance + cashAns.cash}`);
-    
-  }
-  
+);
+// if user won't add any todos it will print this message
+if(!answer.todo){
+    console.log(
+        chalk.yellow(
+            "firstly add some think\nyour list is currently empty\nlet me know what you wanna add.."
+        )
+    );
+    condition=answer.todo;
+
 }else{
-    console.log("INcorrect Pin!!")
+    // if user add or append their task then this message will print and while loop will start from here
+    
+    // it  will push in array whatever added in todos
+ todos.push(answer.todo);
+ console.log(
+    chalk.green(
+        `"${chalk.red(answer.todo)}"your task has been successfully added to the list.\n`
+  )
+ );
+}
+// show  confirmation message that user wanna add  more todos or not .
+
+let addmoretodo = await inquirer.prompt(
+    [
+        {
+            name:"addmore",
+            type:"confirm",
+            message:chalk.blue("what do you wanna in your list?"),
+            default:"false"
+        }
+    ]
+);
+
+if(condition=addmoretodo.addmore){
+ answer.todo;   
+}else //(if they saelect no list will stop here)
+{
+    console.log(chalk.yellow("\nyour todos list:\n"))
+}
+
+// it will print our data separatly line by line
+if (todos.length >= 0) {
+    todos.forEach((list) => {
+      console.log(chalk.rgb(222, 173, 237)("\n",list));
+    });
+  } else {
+    console.log(chalk.greenBright("you add nothing in list..."));
   }
+  // and our end
+  console.log(chalk.gray("\n\t' list is now structured and finalized accordingly'!\n"));
+
+console.log(chalk.green("\n\t\tThank You !!\t\t\n"));}
+
