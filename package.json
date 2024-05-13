@@ -1,6 +1,6 @@
 {
   "name": "my_atm_007",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "you can get your money whereever you want",
   "main": "index.js",
   "type": "module",
